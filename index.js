@@ -54,3 +54,22 @@ const movies = [
     { title: 'Brazil', year: 1985, rating: 8 },
     { title: 'الإرهاب والكباب‎', year: 1992, rating: 6.2 }
 ]
+
+app.get('/movies/read/by-date', (req, res) => {
+    movies.sort( (a, b) => a.year - b.year)
+    res.send({ status: 200, message: movies })
+})
+
+app.get('/movies/read/by-rating', (req, res) => {
+    movies.sort( (a, b) => b.rating - a.rating)
+    res.send({ status: 200, message: movies })
+})
+
+app.get('/movies/read/by-title', (req, res) => {
+    movies.sort( (a, b) => {
+       if(a.title< b.title) return -1;
+       if (a.title>b.title) return 1;
+       return 0;
+    })
+    res.send({ status: 200, message: movies })
+})
