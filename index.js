@@ -32,7 +32,7 @@ app.get('/hello', function (req, res) {
 app.get('/search', function (req, res) {
 const data = req.query.s;
   if (data != null)
-    res.send('{status: 200,message: "ok",data: data}')
+    res.send('{status: 200,message: "ok",data:' + data +'}')
   else{
     res.send('{status: 500,error: true,message: "you have to provide a search"}')
   }
@@ -44,7 +44,74 @@ app.get("/movies/read", function (req, res) {
   res.send({ status: 200, message: movies });
 })
 
-app.get("/movies/update", function (req, res) {})
+// app.get("/movies/update/:movieID", function (req, res) {
+//     let u = req.params.movieID;
+//     let t = req.query.title;
+
+//     if(u>=0 && u <= movies.length )
+//     {
+//         movies[u].title = t;
+//         res.send({status:200, message:movies})
+//     }
+//     else{
+//         res.send({status:404, error:true, message:'the movie '+u+ ' does not exist'});
+//     }
+// })
+
+app.get("/movies/update/:movieID", function (req, res) {
+
+    if(req.params.movieID < 0 || req.params.movieID > movies.length){
+        res.status(404).send("The movie " + req.params.movieID + " does not exist");
+      } 
+      else if((req.query.title == "" && req.query.year == "") || (typeof req.query.title === "undefined" && typeof req.query.year === "undefined")){
+          movies[req.params.movieID] = {
+              title: movies[req.params.movieID].title,
+              year: movies[req.params.movieID].year,
+              rating: req.query.rating,
+          };
+      } 
+      else if((req.query.title == "" && req.query.rating == "") || (typeof req.query.title === "undefined" && typeof req.query.rating === "undefined")){
+          movies[req.params.movieID] = {
+              title: movies[req.params.movieID].title,
+              year: req.query.year,
+              rating: movies[req.params.movieID].rating,
+          };
+      } 
+      else if((req.query.year=="" && req.query.rating == "") || (typeof req.query.year === "undefined" && typeof req.query.rating==="undefined")){
+          movies[req.params.movieID] = {
+              title: req.query.title,
+              year: movies[req.params.movieID].year,
+              rating: movies[req.params.movieID].rating,
+          };
+      } 
+      else if(req.query.title == "" || typeof req.query.title === "undefined"){
+          movies[req.params.movieID] = {
+              title: movies[req.params.movieID].title,
+              year: req.query.year,
+              rating: req.query.rating,
+          };
+      } 
+      else if(req.query.year == "" || typeof req.query.year === "undefined") {
+          movies[req.params.movieID ] = {
+              title: req.query.title,
+              year: movies[req.params.movieID].year,
+              rating: req.query.rating,
+          };
+      } 
+      else if(req.query.rating == "" || typeof req.query.rating === "undefined"){
+          movies[req.params.movieID] = {
+              title: req.query.title,
+              year: req.query.year,
+              rating: movies[req.params.movieID].rating,
+          };
+      } 
+      else{
+          movies[req.params.movieID ].title = req.query.title;
+          movies[req.params.movieID ].year = req.query.year;
+          movies[req.params.movieID ].rating = req.query.rating;
+      }
+      res.status(200).send(movies);
+    });
 
 app.get("/movies/delete/:movieID", function (req, res) {
     const m= req.params.movieID;
