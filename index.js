@@ -37,3 +37,20 @@ const data = req.query.s;
     res.send('{status: 500,error: true,message: "you have to provide a search"}')
   }
 })
+
+app.get("/movies/create", function (req, res) {})
+
+app.get("/movies/read", function (req, res) {
+  res.send({ status: 200, message: movies });
+})
+
+app.get("/movies/update", function (req, res) {})
+
+app.get("/movies/delete", function (req, res) {})
+
+const movies = [
+    { title: 'Jaws', year: 1975, rating: 8 },
+    { title: 'Avatar', year: 2009, rating: 7.8 },
+    { title: 'Brazil', year: 1985, rating: 8 },
+    { title: 'الإرهاب والكباب‎', year: 1992, rating: 6.2 }
+]
