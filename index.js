@@ -46,7 +46,16 @@ app.get("/movies/read", function (req, res) {
 
 app.get("/movies/update", function (req, res) {})
 
-app.get("/movies/delete", function (req, res) {})
+app.get("/movies/delete/:movieID", function (req, res) {
+    const m= req.params.movieID;
+    if(m>=0 && m <= movies.length )
+    {
+        movies.splice(m,1);
+        res.send({status:200, message:movies})
+    } else{
+        res.send({status:404, error:true, message:'the movie '+m+ ' does not exist'});
+    }
+})
 
 const movies = [
     { title: 'Jaws', year: 1975, rating: 8 },
@@ -101,5 +110,4 @@ app.get("/movies/add", function(req, res) {
         movies.push({title:tlt , year:y , rating:rat});
         res.send({ status: 200, message: movies });
     }
-
 })
