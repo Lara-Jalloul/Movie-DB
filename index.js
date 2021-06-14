@@ -83,3 +83,23 @@ app.get('/movies/read/id/:movieID',(req,res) => {
         res.send({status:404, error:true, message:'the movie '+r+ ' does not exist'})
     }
 })
+
+app.get("/movies/add", function(req, res) {
+    const tlt = req.query.title;
+    const y = req.query.year;
+    const rat = req.query.rating;
+
+    if(tlt == null || y == null || y.length != '4' || isNaN(y))
+    {
+        res.send({status:403, error:true, message:'you cannot create a movie without providing a title and a year'})
+    }
+    else if(rat == null){
+        movies.push({title:tlt , year:y , rating:4});
+
+    }
+    else{
+        movies.push({title:tlt , year:y , rating:rat});
+        res.send({ status: 200, message: movies });
+    }
+
+})
