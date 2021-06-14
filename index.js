@@ -38,27 +38,11 @@ const data = req.query.s;
   }
 })
 
-app.get("/movies/create", function (req, res) {})
-
 app.get("/movies/read", function (req, res) {
   res.send({ status: 200, message: movies });
 })
 
-// app.get("/movies/update/:movieID", function (req, res) {
-//     let u = req.params.movieID;
-//     let t = req.query.title;
-
-//     if(u>=0 && u <= movies.length )
-//     {
-//         movies[u].title = t;
-//         res.send({status:200, message:movies})
-//     }
-//     else{
-//         res.send({status:404, error:true, message:'the movie '+u+ ' does not exist'});
-//     }
-// })
-
-app.get("/movies/update/:movieID", function (req, res) {
+app.put("/movies/update/:movieID", function (req, res) {
 
     if(req.params.movieID < 0 || req.params.movieID > movies.length){
         res.status(404).send("The movie " + req.params.movieID + " does not exist");
@@ -113,7 +97,7 @@ app.get("/movies/update/:movieID", function (req, res) {
       res.status(200).send(movies);
     });
 
-app.get("/movies/delete/:movieID", function (req, res) {
+app.delete("/movies/delete/:movieID", function (req, res) {
     const m= req.params.movieID;
     if(m>=0 && m <= movies.length )
     {
@@ -160,7 +144,7 @@ app.get('/movies/read/id/:movieID',(req,res) => {
     }
 })
 
-app.get("/movies/add", function(req, res) {
+app.post("/movies/add", function(req, res) {
     const tlt = req.query.title;
     const y = req.query.year;
     const rat = req.query.rating;
