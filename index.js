@@ -2,6 +2,18 @@ const express = require('express')
 const app = express()
 const port = 3000
 
+//connect to MongoDB
+// const mongoose = require("mongoose");
+// mongoose.connect("mongodb://localhost::27017/MovieDB",{useNewUrlParser: true, useUnifiedTopology: true});
+// var db = mongoose.connection;
+//Bind connection to error event (to get notification of connection errors)
+// db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+
+// mongoose.connection.on("connected", ()=>{
+//     console.log("Connected to MongoDB using MongooseJS");
+// })
+
+
 app.get('/', (req, res) => {
    res.send('ok')
 })
@@ -153,12 +165,14 @@ app.post("/movies/add", function(req, res) {
     {
         res.send({status:403, error:true, message:'you cannot create a movie without providing a title and a year'})
     }
-    else if(rat == null){
-        movies.push({title:tlt , year:y , rating:4});
-
-    }
     else{
-        movies.push({title:tlt , year:y , rating:rat});
-        res.send({ status: 200, message: movies });
+        if(rat == null)
+        {
+        movies.push({title:tlt , year:y , rating:4});
+        }
+        else{
+            movies.push({title:tlt , year:y , rating:rat});
+        }
+        res.send({ status: 200, message: movies});
     }
 })
