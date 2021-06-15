@@ -30,6 +30,11 @@ var MovieSchema = mongoose.Schema({
 
 var Movies = mongoose.model('movies', MovieSchema);
 
+app.get("/movies/read", function (req, res) {
+    const MoviesReaded = await Movies.save()
+    res.send({ status: 200, message: MoviesReaded });
+  })
+
 app.post("/movies/add", function(req, res) {
     const tlt = req.query.title;
     const y = req.query.year;
@@ -50,3 +55,4 @@ app.post("/movies/add", function(req, res) {
     const MoviesAdded = await movie.save()
     res.send({ status: 200, message: MoviesAdded});
 })
+
