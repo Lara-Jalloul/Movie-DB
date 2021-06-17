@@ -20,7 +20,9 @@ var MovieSchema = mongoose.Schema({
       type: String
   },
   year: {
-      type: Number
+      type: Number,
+      min: 1000,
+      max:9999
   },
   rating:{
       type: Number,
